@@ -21,9 +21,10 @@ class SearchUserViewHolder(
 
     }
 
-    fun bind(user: UserInfo) {
+    fun bind(user: UserInfo, pos: Int) {
         Glide.with(binding.root.context).load(user.avatarUrl).into(binding.searchListItemUserProfile)
-        binding.searchListItemUserName.text = user.login
+        binding.searchListItemUserName.text = "#$pos ${user.login}"
+        binding.searchListItemUserRepo.text = user.repoCount.toString()
         url = user.url
     }
 }

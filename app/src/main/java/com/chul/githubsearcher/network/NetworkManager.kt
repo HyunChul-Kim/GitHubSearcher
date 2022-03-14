@@ -13,6 +13,10 @@ object NetworkManager {
         .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .client(OkHttpClient.Builder()
+            .addInterceptor {
+                val request = it.request().newBuilder().addHeader("Authorization", "token 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").build()
+                it.proceed(request)
+            }
             .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
             .build())
         .build()

@@ -4,6 +4,8 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.chul.githubsearcher.data.UserInfo
 import com.chul.githubsearcher.network.GitHubService
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class SearchUserPagingSource(
     private val service: GitHubService,
@@ -19,17 +21,25 @@ class SearchUserPagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UserInfo> {
         return try {
-            // Start refresh at page 1 if undefined.
-            val nextPageNumber = params.key ?: 1
-            val response = service.searchUser(query, page = nextPageNumber)
+            val pageNumber = params.key ?: 1
+            val response = service.searchUser(query, page = pageNumber)
+            val userList = mutableListOf<UserInfo>()
+            val data = response.items ?: emptyList()
+            userList.addAll(data)
+            coroutineScope {
+                userList.forEach {
+                    launch {
+                        val userResponse = service.getUser(it.login)
+                        it.repoCount = userResponse.publicRepos
+                    }
+                }
+            }
             LoadResult.Page(
-                data = response.items,
-                prevKey = null, // Only paging forward.
-                nextKey = nextPageNumber + 1
+                data = userList,
+                prevKey = if(pageNumber == 1) null else pageNumber - 1,
+                nextKey = pageNumber + 1
             )
         } catch (e: Exception) {
-            // Handle errors in this block and return LoadResult.Error if it is an
-            // expected error (such as a network failure).
             LoadResult.Error(e)
         }
     }

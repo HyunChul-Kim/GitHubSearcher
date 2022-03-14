@@ -15,7 +15,7 @@ class SearchHeaderViewModel: ViewModel() {
      * 검색 키워드 변경을 관찰하기 위한 LiveData
      * 이 키워드는 searchUser() 호출하면 데이터가 변경 됨
      */
-    private val searchKeyword = MutableLiveData<String>().apply { value = "" }
+    val searchKeyword = MutableLiveData<String>()
 
     /**
      * searchKeyword 데이터 변경 될 경우 해당 검색어로 검색하여 PagingData를 return 하는 LiveData
@@ -36,7 +36,7 @@ class SearchHeaderViewModel: ViewModel() {
     var keyword = ""
 
     fun searchUser(user: String) {
-        val query = "$user type:users"
+        if(user.isEmpty()) return
         searchKeyword.value = user
     }
 }

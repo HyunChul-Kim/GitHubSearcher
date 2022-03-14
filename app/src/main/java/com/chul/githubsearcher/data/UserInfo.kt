@@ -8,4 +8,6 @@ data class UserInfo(
     @SerializedName("avatar_url") val avatarUrl: String,
     @SerializedName("repos_url") val repoUrl: String,
     @SerializedName("html_url") val url: String
-)
+) {
+    var repoCount = 0
+}

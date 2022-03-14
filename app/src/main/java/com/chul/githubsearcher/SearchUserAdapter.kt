@@ -1,5 +1,6 @@
 package com.chul.githubsearcher
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -18,7 +19,7 @@ class SearchUserAdapter(
 
     override fun onBindViewHolder(holder: SearchUserViewHolder, position: Int) {
         val item = getItem(position) ?: return
-        holder.bind(item)
+        holder.bind(item, position)
     }
 }
 

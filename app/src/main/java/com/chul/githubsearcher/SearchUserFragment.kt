@@ -3,12 +3,15 @@ package com.chul.githubsearcher
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import com.chul.githubsearcher.databinding.FragmentSearchUserBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -45,11 +48,17 @@ class SearchUserFragment: Fragment() {
 
     private fun setupListView() {
         binding.searchUserListView.adapter = adapter
+        adapter.addLoadStateListener { loadState ->
+            binding.searchUserListView.isVisible = loadState.refresh is LoadState.NotLoading
+        }
     }
 
     private fun setupViewModel() {
         searchHeaderViewModel.userFlow.observe(viewLifecycleOwner) { data ->
             adapter.submitData(lifecycle, data)
+        }
+        searchHeaderViewModel.searchKeyword.observe(viewLifecycleOwner) {
+            binding.searchUserListView.scrollToPosition(0)
         }
     }
 
