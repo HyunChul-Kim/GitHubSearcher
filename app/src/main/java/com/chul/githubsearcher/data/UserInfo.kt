@@ -7,5 +7,5 @@ data class UserInfo(
     val id: String,
     @SerializedName("avatar_url") val avatarUrl: String,
     @SerializedName("repos_url") val repoUrl: String,
-    val url: String
+    @SerializedName("html_url") val url: String
 )

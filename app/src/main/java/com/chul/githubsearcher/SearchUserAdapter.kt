@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import com.chul.githubsearcher.data.UserInfo
 import com.chul.githubsearcher.databinding.ViewSearchListItemBinding
 
-class SearchUserAdapter: PagingDataAdapter<UserInfo, SearchUserViewHolder>(UserInfoDiffCallback()) {
+class SearchUserAdapter(
+    private val itemClick: (String) -> Unit
+): PagingDataAdapter<UserInfo, SearchUserViewHolder>(UserInfoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchUserViewHolder {
         val binding = ViewSearchListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return SearchUserViewHolder(binding)
+        return SearchUserViewHolder(binding, itemClick)
     }
 
     override fun onBindViewHolder(holder: SearchUserViewHolder, position: Int) {
