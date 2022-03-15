@@ -7,11 +7,11 @@ import androidx.databinding.BindingAdapter
 object BindingAdapters {
 
     @JvmStatic
-    @BindingAdapter("app:onSearch")
+    @BindingAdapter("onSearch")
     fun AppCompatEditText.onSearchClick(onSearch: () -> Unit) {
         setOnEditorActionListener { _, actionId, _ ->
             val keyword = text?.toString() ?: ""
-            if(keyword.isEmpty()) return@setOnEditorActionListener true
+            if(keyword.isEmpty()) return@setOnEditorActionListener false
             when(actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     onSearch()

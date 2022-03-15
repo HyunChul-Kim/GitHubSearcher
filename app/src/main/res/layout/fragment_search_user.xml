@@ -24,5 +24,17 @@
             app:layout_constraintTop_toBottomOf="@id/search_user_header"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/search_user_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:indeterminate="true"
+            app:indicatorColor="@color/mint"
+            app:layout_constraintTop_toBottomOf="@id/search_user_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

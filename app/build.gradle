@@ -8,6 +8,9 @@ android {
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
+    def localProperties = new Properties()
+    localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
     defaultConfig {
         applicationId "com.chul.githubsearcher"
         minSdkVersion 21
@@ -16,6 +19,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "GITHUB_ACCESS_TOKEN", localProperties['githubAccessToken'])
     }
 
     buildTypes {
@@ -53,7 +57,7 @@ dependencies {
     // retrofit2
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
     // glide
     implementation 'com.github.bumptech.glide:glide:4.13.0'
